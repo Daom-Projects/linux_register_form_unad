@@ -36,27 +36,28 @@
         <section>
             <p class="font-bold text-center text-2xl">Registro</p>
         </section>
-        <?php if(empty($_POST['nombres'] && $_POST['email'] && $_POST['password']) ){ ?>
+        <?php if(empty($_POST['nombres']) && empty($_POST['email']) && empty($_POST['password']) ){ ?>
         <section class="mt-4">
-            <form class="flex flex-col" method="POST" action="#">
+            <form class="flex flex-col" method="POST" action="index.php">
                 <div class="mb-6 pt-3 rounded bg-gray-200">
                     <label class="block text-gray-700 text-sm font-bold mb-2 ml-3" for="nombres">Nombres</label>
-                    <input type="text" id="nombres" name="nombres" class="bg-gray-200 rounded w-full text-gray-700 focus:outline-none border-b-4 border-gray-300 focus:border-purple-600 transition duration-500 px-3 pb-3">
+                    <input type="text" id="nombres" name="nombres" class="bg-gray-200 rounded w-full text-gray-700 focus:outline-none border-b-4 border-gray-300 focus:border-purple-600 transition duration-500 px-3 pb-3" required>
                 </div>
                 <div class="mb-6 pt-3 rounded bg-gray-200">
                     <label class="block text-gray-700 text-sm font-bold mb-2 ml-3" for="email">Correo</label>
-                    <input type="email" id="email" name="email" class="bg-gray-200 rounded w-full text-gray-700 focus:outline-none border-b-4 border-gray-300 focus:border-purple-600 transition duration-500 px-3 pb-3">
+                    <input type="email" id="email" name="email" class="bg-gray-200 rounded w-full text-gray-700 focus:outline-none border-b-4 border-gray-300 focus:border-purple-600 transition duration-500 px-3 pb-3" required>
                 </div>
                 <div class="mb-6 pt-3 rounded bg-gray-200">
                     <label class="block text-gray-700 text-sm font-bold mb-2 ml-3" for="password">Contraseña</label>
-                    <input type="password" id="password" name="password" class="bg-gray-200 rounded w-full text-gray-700 focus:outline-none border-b-4 border-gray-300 focus:border-purple-600 transition duration-500 px-3 pb-3">
+                    <input type="password" id="password" name="password" class="bg-gray-200 rounded w-full text-gray-700 focus:outline-none border-b-4 border-gray-300 focus:border-purple-600 transition duration-500 px-3 pb-3" required>
                 </div>
-                <button class="bg-green-600 hover:bg-green-700 text-white font-bold py-2 rounded shadow-lg hover:shadow-xl transition duration-200" type="submit">Enviar</button>
+                <input class="bg-green-600 hover:bg-green-700 text-white font-bold py-2 rounded shadow-lg hover:shadow-xl transition duration-200" type="submit" value="Enviar">
             </form>
         </section>
         <?php }else{ ?>
             <section class="mt-4">
             <?php
+                require_once('db.class.php');
                 $nombres = $_POST['nombres']; $email = $_POST['email']; $password = $_POST['password'];
                 $db = new db("localhost", "root", "password", "database"); #Estos datos se modifican en el servidor... =(
                 $result = $db->insert("INSERT INTO usuarios VALUES (?,?,?,?)", array(null, $nombres, $email, $password));
