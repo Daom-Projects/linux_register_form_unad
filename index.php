@@ -18,6 +18,7 @@
     </style>
 </head>
 <body class="body-bg min-h-screen pt-12 md:pt-20 pb-6 px-2 md:px-0" style="font-family:'Lato',sans-serif;">
+
     <header class="max-w-lg mx-auto">
         <a href="#">
             <h1 class="text-4xl font-bold text-white text-center">Linux Webmin</h1>
@@ -35,6 +36,7 @@
         <section>
             <p class="font-bold text-center text-2xl">Registro</p>
         </section>
+        <?php if(empty($_POST['nombres'] && $_POST['email'] && $_POST['password']) ){ ?>
         <section class="mt-4">
             <form class="flex flex-col" method="POST" action="#">
                 <div class="mb-6 pt-3 rounded bg-gray-200">
@@ -52,6 +54,20 @@
                 <button class="bg-green-600 hover:bg-green-700 text-white font-bold py-2 rounded shadow-lg hover:shadow-xl transition duration-200" type="submit">Enviar</button>
             </form>
         </section>
+        <?php }else{ ?>
+            <section class="mt-4">
+            <?php
+                $nombres = $_POST['nombres']; $email = $_POST['email']; $password = $_POST['password'];
+                $db = new db("localhost", "root", "password", "database"); #Estos datos se modifican en el servidor... =(
+                $result = $db->insert("INSERT INTO usuarios VALUES (?,?,?,?)", array(null, $nombres, $email, $password));
+                if($result){
+            ?>
+                <div class="p-2 bg-green-100 text-green-800 p-4 text-sm rounded border border-green-300 my-3">Usuario registrado correctamente!</div>
+            <?php }else{ ?>
+                <div class="p-2 bg-red-200 text-red-800 p-4 text-sm rounded border border-red-300 my-3">Usuario NO registrado! <a href="index.php">Intentalo nuevamente</a></div>
+            <?php } ?>
+            </section>
+        <?php } ?>
     </main>
 
     <footer class="max-w-lg mx-auto flex justify-center text-white">
